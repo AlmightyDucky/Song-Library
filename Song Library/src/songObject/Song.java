@@ -1,13 +1,23 @@
 package songObject;
 
-public class Song {
+public class Song implements Comparable<Song>{
 	
 	private String name;  // holds the name of song
 	private String artist; // holds the artist's name
 	private String album;  // holds the album's name
 	private String year;  // holds the year album was created
 	
-	public Song(String name, String artist, String album, String year) { // constructor for Song
+	public Song(String name, String artist) { // constructor for Song
+		
+		this(name, artist, "", "");
+	}
+	
+	public Song(String name, String artist,  String album) { // 2nd constructor for Song
+		
+		this(name, artist, album, "");
+	}
+	
+	public Song(String name, String artist, String album, String year) { // 3rd constructor for Song
 		
 		this.name = name;
 		this.artist = artist;
@@ -42,7 +52,7 @@ public class Song {
 	
 	public void setArtist(String artistName) {  // sets the name of artist
 		
-		name = artistName;
+		artist = artistName;
 	}
 	
 	public void setAlbum(String albumName) {  // sets the name of album
@@ -55,7 +65,37 @@ public class Song {
 		this.year = year;
 	}
 	
+	// format to store a song inside of a text file
+	// name,artist,album,year (ex: Hi,Joe Schmo,The Best Album,2017)
+	public String writeToFile()
+	{
+		if (album == null && year == null)
+			return name + "," + artist;
+		
+		if (year == null)
+			return name + "," + artist + "," + album;
+		
+		if (album == null)
+			return name + "," + artist + "," + " " + "," + year;
+		
+		return name + "," + artist + "," + album + "," + year;
+	}
 	
+	public String toString()
+	{
+		return name + "," + artist;
+	}
+
+	@Override
+	public int compareTo(Song other)
+	{
+		if (name.compareTo(other.name) == 0)
+		{
+			return artist.compareTo(other.artist);
+		}
+		
+		return name.compareTo(other.name);
+	}
 	
 
 }
